@@ -1,33 +1,52 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AUTH_STORAGE_KEY, PASSWORD } from "@/lib/constants";
+
+interface AuthResponse {
+  authenticated: boolean;
+}
 
 export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
+    fetch("/api/auth", { method: "GET", cache: "no-store" })
+      .then((res) => res.json() as Promise<AuthResponse>)
+      .then((data) => {
+        if (!cancelled) setIsAuthenticated(Boolean(data.authenticated));
+      })
+      .catch(() => {
+        if (!cancelled) setIsAuthenticated(false);
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const authenticate = useCallback(async (code: string): Promise<boolean> => {
     try {
-      const stored = sessionStorage.getItem(AUTH_STORAGE_KEY);
-      setIsAuthenticated(stored === "true");
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
+      const success = res.ok;
+      if (success) setIsAuthenticated(true);
+      return success;
     } catch {
-      setIsAuthenticated(false);
+      return false;
     }
-    setIsLoading(false);
   }, []);
 
-  const authenticate = useCallback((input: string): boolean => {
-    const success = input.trim() === PASSWORD;
-    if (success) {
-      sessionStorage.setItem(AUTH_STORAGE_KEY, "true");
-      setIsAuthenticated(true);
-    }
-    return success;
-  }, []);
-
-  const logout = useCallback(() => {
-    sessionStorage.removeItem(AUTH_STORAGE_KEY);
+  const logout = useCallback(async () => {
+    await fetch("/api/auth", { method: "DELETE" }).catch(() => {});
     setIsAuthenticated(false);
   }, []);
 

@@ -1,18 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ivory: #f7f3ed;
+  --color-black: #090909;
+  --color-black-soft: #0f0e0d;
+  --color-charcoal: #1a1613;
+  --color-charcoal-soft: #241f1a;
+  --color-ivory: #f5f1ea;
   --color-ivory-warm: #faf7f2;
-  --color-champagne: #c9b896;
-  --color-champagne-light: #d4c4a8;
-  --color-silver-blue: #9fafb8;
-  --color-silver-blue-deep: #7a8b96;
-  --color-candlelight: #e8dcc8;
-  --color-candlelight-soft: #f5ede0;
-  --color-charcoal: #2a2826;
-  --color-charcoal-soft: #3d3a37;
+  --color-warm-white: #fbf8f3;
+  --color-champagne: #d8c3a0;
+  --color-champagne-soft: #e6d9c1;
+  --color-gold: #b4915c;
+  --color-gold-bright: #c9a66b;
+  --color-line-dark: rgba(216, 195, 160, 0.14);
+  --color-line-light: rgba(180, 145, 92, 0.22);
 
   --font-display: var(--font-cormorant);
+  --font-accent: var(--font-instrument);
   --font-body: var(--font-inter);
 }
 
@@ -25,6 +29,7 @@
 
   html {
     scroll-behavior: auto;
+    background: var(--color-black);
   }
 
   html.lenis,
@@ -45,14 +50,30 @@
   }
 
   body {
-    @apply bg-ivory text-charcoal antialiased;
+    @apply bg-black text-ivory antialiased;
     font-family: var(--font-body), system-ui, sans-serif;
     overflow-x: hidden;
   }
 
   ::selection {
-    background-color: color-mix(in srgb, var(--color-champagne) 35%, transparent);
-    color: var(--color-charcoal);
+    background-color: color-mix(in srgb, var(--color-gold) 35%, transparent);
+    color: var(--color-black);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -61,31 +82,77 @@
     font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
   }
 
+  .font-accent {
+    font-family: var(--font-accent), "Instrument Serif", Georgia, serif;
+  }
+
   .text-balance {
     text-wrap: balance;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   .cinematic-gradient {
     background: linear-gradient(
       180deg,
-      rgba(42, 40, 38, 0.55) 0%,
-      rgba(42, 40, 38, 0.15) 40%,
-      rgba(42, 40, 38, 0.45) 100%
+      rgba(9, 9, 9, 0.6) 0%,
+      rgba(9, 9, 9, 0.1) 40%,
+      rgba(9, 9, 9, 0.55) 100%
     );
   }
 
   .hero-gradient {
     background: linear-gradient(
       to bottom,
-      rgba(247, 243, 237, 0.1) 0%,
-      rgba(42, 40, 38, 0.35) 50%,
-      rgba(42, 40, 38, 0.65) 100%
+      rgba(9, 9, 9, 0.15) 0%,
+      rgba(9, 9, 9, 0.35) 55%,
+      rgba(9, 9, 9, 0.85) 100%
+    );
+  }
+
+  .radial-vignette {
+    background: radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      rgba(9, 9, 9, 0.55) 100%
     );
   }
 
   .grain-overlay {
     pointer-events: none;
-    opacity: 0.04;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  .glass-panel {
+    background: color-mix(in srgb, var(--color-black) 55%, transparent);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid var(--color-line-dark);
+  }
+
+  .glass-panel-light {
+    background: color-mix(in srgb, var(--color-warm-white) 70%, transparent);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid var(--color-line-light);
+  }
+
+  .mask-reveal {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cursor-none-desktop {
+    cursor: none;
   }
 }

@@ -2,10 +2,10 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, type FormEvent } from "react";
-import { COUPLE } from "@/lib/constants";
+import { COUPLE } from "@/lib/data/couple";
 
 interface PasswordGateProps {
-  onAuthenticate: (input: string) => boolean;
+  onAuthenticate: (input: string) => Promise<boolean>;
 }
 
 export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
@@ -14,19 +14,17 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = useCallback(
-    (e: FormEvent) => {
+    async (e: FormEvent) => {
       e.preventDefault();
       setIsSubmitting(true);
       setError(false);
 
-      setTimeout(() => {
-        const success = onAuthenticate(password);
-        if (success) {
-          return;
-        }
+      const success = await onAuthenticate(password);
+
+      if (!success) {
         setError(true);
         setIsSubmitting(false);
-      }, 800);
+      }
     },
     [password, onAuthenticate]
   );
@@ -39,27 +37,22 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0, scale: 1.02 }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed inset-0 z-[100] flex items-center justify-center bg-ivory"
+        className="fixed inset-0 z-[100] flex items-center justify-center bg-black"
       >
-        {/* Animated background */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            animate={{
-              scale: [1, 1.08, 1],
-              opacity: [0.4, 0.6, 0.4],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -inset-[20%] bg-gradient-radial from-candlelight/60 via-champagne/20 to-ivory"
+            animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -inset-[20%]"
             style={{
               background:
-                "radial-gradient(ellipse at 50% 40%, rgba(232,220,200,0.5) 0%, rgba(201,184,150,0.15) 45%, rgba(247,243,237,1) 80%)",
+                "radial-gradient(ellipse at 50% 40%, rgba(216,195,160,0.14) 0%, rgba(180,145,92,0.06) 45%, rgba(9,9,9,1) 80%)",
             }}
           />
           <div className="grain-overlay absolute inset-0" />
         </div>
 
         <div className="relative z-10 flex flex-col items-center px-6 text-center">
-          {/* Monogram */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -70,20 +63,19 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 rounded-full border border-champagne/30"
+                className="absolute inset-0 rounded-full border border-champagne/25"
               />
-              <span className="font-display text-3xl tracking-[0.2em] text-charcoal md:text-4xl">
+              <span className="font-display text-3xl tracking-[0.2em] text-ivory md:text-4xl">
                 {COUPLE.monogram}
               </span>
             </div>
           </motion.div>
 
-          {/* Names */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display text-sm tracking-[0.35em] text-silver-blue-deep uppercase md:text-base"
+            className="font-display text-sm tracking-[0.35em] text-ivory/70 uppercase md:text-base"
           >
             {COUPLE.fullName}
           </motion.p>
@@ -92,9 +84,9 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 1 }}
-            className="mt-3 font-display text-xs tracking-[0.25em] text-champagne uppercase"
+            className="mt-3 font-body text-xs tracking-[0.25em] text-champagne uppercase"
           >
-            {COUPLE.date}
+            {COUPLE.weddingDate}
           </motion.p>
 
           <motion.div
@@ -103,7 +95,7 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
             transition={{ delay: 0.9, duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="mt-16 w-full max-w-xs"
           >
-            <p className="mb-8 font-display text-lg tracking-wide text-charcoal-soft italic md:text-xl">
+            <p className="font-accent mb-8 text-lg italic text-ivory/60 md:text-xl">
               You are invited to enter
             </p>
 
@@ -117,12 +109,12 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
                     setPassword(e.target.value);
                     setError(false);
                   }}
-                  placeholder="Enter date"
+                  placeholder="Enter access code"
                   aria-label="Private access code"
-                  className={`w-full border-b bg-transparent px-2 py-3 text-center font-body text-sm tracking-[0.3em] text-charcoal placeholder:text-silver-blue/60 outline-none transition-colors duration-500 ${
+                  className={`w-full border-b bg-transparent px-2 py-3 text-center font-body text-sm tracking-[0.3em] text-ivory placeholder:text-ivory/30 outline-none transition-colors duration-500 ${
                     error
                       ? "border-red-400/60"
-                      : "border-champagne/40 focus:border-champagne"
+                      : "border-champagne/30 focus:border-champagne"
                   }`}
                   autoComplete="off"
                 />
@@ -133,7 +125,7 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
                 disabled={isSubmitting || !password}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="group relative w-full overflow-hidden py-4 font-display text-xs tracking-[0.35em] text-charcoal uppercase transition-opacity disabled:opacity-40"
+                className="group relative w-full overflow-hidden py-4 font-body text-xs tracking-[0.35em] text-ivory uppercase transition-opacity disabled:opacity-40"
               >
                 <span className="relative z-10">
                   {isSubmitting ? "Opening..." : "Enter"}
@@ -165,9 +157,9 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 1 }}
-            className="mt-20 text-[10px] tracking-[0.3em] text-silver-blue/70 uppercase"
+            className="mt-20 font-body text-[10px] tracking-[0.3em] text-ivory/30 uppercase"
           >
-            Private & Confidential
+            Private &amp; Confidential
           </motion.p>
         </div>
       </motion.div>

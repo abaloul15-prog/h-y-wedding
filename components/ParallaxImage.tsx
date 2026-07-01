@@ -3,11 +3,13 @@
 import Image from "next/image";
 import { motion, useTransform, useScroll } from "framer-motion";
 import { useRef } from "react";
-import type { ImageAsset } from "@/lib/images";
+import type { Photo } from "@/lib/types";
+import { resolveImage } from "@/lib/providers/image-provider";
 
 interface ParallaxImageProps {
-  image: ImageAsset;
+  image: Photo;
   className?: string;
+  imgClassName?: string;
   priority?: boolean;
   speed?: number;
   sizes?: string;
@@ -16,6 +18,7 @@ interface ParallaxImageProps {
 export default function ParallaxImage({
   image,
   className = "",
+  imgClassName = "",
   priority = false,
   speed = 0.15,
   sizes = "100vw",
@@ -27,18 +30,21 @@ export default function ParallaxImage({
   });
   const y = useTransform(scrollYProgress, [0, 1], [speed * -80, speed * 80]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 1, 1.05]);
+  const resolved = resolveImage(image);
 
   return (
     <div ref={ref} className={`relative overflow-hidden ${className}`}>
       <motion.div style={{ y, scale }} className="absolute inset-[-8%]">
         <Image
-          src={image.src}
-          alt={image.alt}
+          src={resolved.src}
+          alt={resolved.alt}
           fill
           priority={priority}
           loading={priority ? "eager" : "lazy"}
           sizes={sizes}
-          className="object-cover"
+          placeholder="blur"
+          blurDataURL={resolved.blurDataURL}
+          className={`object-cover ${imgClassName}`}
         />
       </motion.div>
     </div>

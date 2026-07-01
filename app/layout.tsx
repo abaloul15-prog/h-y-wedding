@@ -1,11 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Cormorant_Garamond, Instrument_Serif, Inter } from "next/font/google";
 import "./globals.css";
+import { SITE } from "@/lib/data/couple";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   variable: "--font-cormorant",
+  display: "swap",
+});
+
+const instrument = Instrument_Serif({
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal", "italic"],
+  variable: "--font-instrument",
   display: "swap",
 });
 
@@ -16,24 +25,28 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Hüseyin & Yousra",
-  description: "A private cinematic memory experience",
+  title: SITE.title,
+  description: SITE.description,
   robots: {
     index: false,
     follow: false,
+    nocache: true,
     googleBot: {
       index: false,
       follow: false,
+      noimageindex: true,
+      "max-snippet": -1,
+      "max-image-preview": "none",
     },
   },
   openGraph: {
-    title: "Private Experience",
-    description: "Invitation only",
+    title: "Private Estate",
+    description: "Invitation only.",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F7F3ED",
+  themeColor: "#090909",
   width: "device-width",
   initialScale: 1,
 };
@@ -44,8 +57,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
-      <body className="min-h-screen bg-ivory antialiased">{children}</body>
+    <html
+      lang="en"
+      className={`${cormorant.variable} ${instrument.variable} ${inter.variable}`}
+    >
+      <body className="min-h-screen bg-black antialiased">{children}</body>
     </html>
   );
 }
