@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #f7f3ed;
+  --color-ivory-warm: #faf7f2;
+  --color-champagne: #c9b896;
+  --color-champagne-light: #d4c4a8;
+  --color-silver-blue: #9fafb8;
+  --color-silver-blue-deep: #7a8b96;
+  --color-candlelight: #e8dcc8;
+  --color-candlelight-soft: #f5ede0;
+  --color-charcoal: #2a2826;
+  --color-charcoal-soft: #3d3a37;
+
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-inter);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    @apply bg-ivory text-charcoal antialiased;
+    font-family: var(--font-body), system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-champagne) 35%, transparent);
+    color: var(--color-charcoal);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .cinematic-gradient {
+    background: linear-gradient(
+      180deg,
+      rgba(42, 40, 38, 0.55) 0%,
+      rgba(42, 40, 38, 0.15) 40%,
+      rgba(42, 40, 38, 0.45) 100%
+    );
+  }
+
+  .hero-gradient {
+    background: linear-gradient(
+      to bottom,
+      rgba(247, 243, 237, 0.1) 0%,
+      rgba(42, 40, 38, 0.35) 50%,
+      rgba(42, 40, 38, 0.65) 100%
+    );
+  }
+
+  .grain-overlay {
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+}
