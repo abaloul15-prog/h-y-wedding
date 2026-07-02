@@ -109,7 +109,7 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
                     setPassword(e.target.value);
                     setError(false);
                   }}
-                  placeholder="Enter access code"
+                  placeholder="Private Invitation"
                   aria-label="Private access code"
                   className={`w-full border-b bg-transparent px-2 py-3 text-center font-body text-sm tracking-[0.3em] text-ivory placeholder:text-ivory/30 outline-none transition-colors duration-500 ${
                     error
