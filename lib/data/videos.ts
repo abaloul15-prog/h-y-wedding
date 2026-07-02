@@ -3,6 +3,7 @@ import { getPhotoByIndex } from "@/lib/data/photos";
 
 function poster(index: number) {
   const photo = getPhotoByIndex(index);
+
   return {
     src: photo.src,
     alt: photo.alt,
@@ -11,21 +12,13 @@ function poster(index: number) {
   };
 }
 
-/**
- * Structured video catalog. Replace `providerId` with the real
- * YouTube (unlisted) video ID once available — everything else
- * (player chrome, metadata, lightbox) is already wired up.
- *
- * To migrate away from YouTube later (Mux, Cloudflare Stream, Vimeo,
- * self-hosted), only lib/providers/video-provider.ts needs to change.
- */
 export const VIDEOS: Video[] = [
   {
     id: "the-film",
-    title: "Our Story",
-    subtitle: "The Wedding Film",
+    title: "The Beginning of Forever",
+    subtitle: "The Official Wedding Film",
     description:
-      "The complete story of the sixteenth of June — from first light to the final dance, told as one continuous film.",
+      "From the first quiet moments of the morning to the final dance of the evening, this film captures the complete story of a day that marked the beginning of forever.",
     date: "16 June 2026",
     duration: "8:42",
     location: "Morocco",
@@ -37,10 +30,10 @@ export const VIDEOS: Video[] = [
   },
   {
     id: "the-ceremony",
-    title: "The Ceremony",
-    subtitle: "Vows & Witnesses",
+    title: "The Moment We Said Yes",
+    subtitle: "The Ceremony",
     description:
-      "An intimate cut of the ceremony itself — the vows, the exchange, the quiet moments in between.",
+      "Every vow, every glance, every promise. A timeless record of the moment two families witnessed the beginning of a new chapter.",
     date: "16 June 2026",
     duration: "4:15",
     location: "Morocco",
@@ -51,10 +44,10 @@ export const VIDEOS: Video[] = [
   },
   {
     id: "the-reception",
-    title: "The Celebration",
-    subtitle: "Reception & Dancing",
+    title: "One Night. One Family. One Beginning.",
+    subtitle: "The Celebration",
     description:
-      "The final act — music, dancing, and the people who made the night unforgettable.",
+      "An evening filled with joy, music, laughter, and unforgettable memories shared with the people who made this celebration complete.",
     date: "16 June 2026",
     duration: "5:30",
     location: "Morocco",

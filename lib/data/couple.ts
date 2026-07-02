@@ -11,8 +11,9 @@ export const COUPLE: Couple = {
 };
 
 export const SITE = {
-  title: `${COUPLE.fullName} — Private`,
-  description: "A private cinematic estate, commissioned to preserve one story.",
+  title: `${COUPLE.fullName} — Official Wedding Archive`,
+  description:
+    "Created to preserve one extraordinary love story, one unforgettable celebration, and the beginning of a lifetime together.",
 } as const;
 
 /**
