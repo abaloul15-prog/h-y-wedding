@@ -34,7 +34,7 @@ export default function VideoLightbox({ video, onClose }: VideoLightboxProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/95 backdrop-blur-md"
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/95 px-3 backdrop-blur-md sm:px-6"
           role="dialog"
           aria-modal="true"
           aria-label={video.title}
@@ -65,7 +65,11 @@ export default function VideoLightbox({ video, onClose }: VideoLightboxProps) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.5, ease: ease.cinematic }}
-            className="relative aspect-video w-full max-w-6xl overflow-hidden rounded-xl px-4 shadow-[0_40px_140px_-20px_rgba(0,0,0,0.9)] md:rounded-2xl md:px-0"
+            className={`relative overflow-hidden rounded-xl shadow-[0_40px_140px_-20px_rgba(0,0,0,0.9)] md:rounded-2xl ${
+              video.aspect === "portrait"
+                ? "aspect-[9/16] w-[min(100%,calc(88dvh*(9/16)))]"
+                : "aspect-video w-[min(100%,calc(85dvh*(16/9)))] max-w-6xl"
+            }`}
             onClick={(event) => event.stopPropagation()}
           >
             <VideoPlayer video={video} autoPlayOnMount sizes="1200px" />

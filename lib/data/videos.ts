@@ -27,6 +27,7 @@ export const VIDEOS: Video[] = [
     poster: poster(0),
     provider: "google-drive",
     providerId: "1LMBL0iLVLsirhFFXT0j3bvQW1prKwOwS",
+    aspect: "portrait",
   },
   {
     id: "the-ceremony",
@@ -41,6 +42,7 @@ export const VIDEOS: Video[] = [
     poster: poster(23),
     provider: "google-drive",
     providerId: "1U8ln6U4WqKuNXDTYxoRe_5nPuD8G25Fw",
+    aspect: "portrait",
   },
   {
     id: "the-reception",
@@ -55,6 +57,7 @@ export const VIDEOS: Video[] = [
     poster: poster(53),
     provider: "google-drive",
     providerId: "1lnuzD2qsm8to5cq-VPHYD76nqKyj2Jz4",
+    aspect: "portrait",
   },
 ];
 

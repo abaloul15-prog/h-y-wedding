@@ -84,4 +84,11 @@ export interface Video {
   poster: PhotoRef;
   provider: VideoProviderType;
   providerId: string;
+  /**
+   * Native orientation of the source file. Portrait films get a 9:16
+   * player frame (critical on phones, where a portrait video inside a
+   * 16:9 frame would be pillarboxed into a tiny strip). Defaults to
+   * "landscape" when omitted.
+   */
+  aspect?: "portrait" | "landscape";
 }

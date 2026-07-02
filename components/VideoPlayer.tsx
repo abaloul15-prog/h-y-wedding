@@ -64,20 +64,20 @@ export default function VideoPlayer({
               <motion.span
                 whileHover={configured ? { scale: 1.08 } : undefined}
                 whileTap={configured ? { scale: 0.95 } : undefined}
-                className="flex h-16 w-16 items-center justify-center rounded-full border border-champagne/50 bg-black/30 text-ivory backdrop-blur-sm transition-colors group-hover:border-champagne group-hover:bg-black/50 md:h-20 md:w-20"
+                className="flex h-14 w-14 items-center justify-center rounded-full border border-champagne/50 bg-black/30 text-ivory backdrop-blur-sm transition-colors group-hover:border-champagne group-hover:bg-black/50 sm:h-16 sm:w-16 md:h-20 md:w-20"
               >
                 <PlayIcon />
               </motion.span>
             </div>
 
-            <div className="relative z-10 px-6 pb-6 md:px-10 md:pb-10">
-              <span className="mb-2 block font-body text-[11px] tracking-[0.35em] text-champagne uppercase">
+            <div className="relative z-10 px-4 pb-4 sm:px-6 sm:pb-6 md:px-10 md:pb-10">
+              <span className="mb-1.5 block font-body text-[10px] tracking-[0.35em] text-champagne uppercase sm:mb-2 sm:text-[11px]">
                 {video.category}
               </span>
-              <h3 className="font-display text-2xl font-light text-ivory md:text-4xl">
+              <h3 className="font-display text-lg font-light text-ivory sm:text-2xl md:text-4xl">
                 {video.title}
               </h3>
-              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-body text-xs text-ivory/60 md:text-sm">
+              <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-body text-[11px] text-ivory/60 sm:mt-3 sm:gap-x-4 sm:text-xs md:text-sm">
                 <span>{video.date}</span>
                 <span aria-hidden>•</span>
                 <span>{video.duration}</span>
