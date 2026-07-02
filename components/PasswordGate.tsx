@@ -74,7 +74,7 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.5, duration: 1 }}
             className="font-display text-sm tracking-[0.35em] text-ivory/70 uppercase md:text-base"
           >
             {COUPLE.fullName}
@@ -92,11 +92,22 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.9, duration: 1 }}
             className="mt-16 w-full max-w-xs"
           >
-            <p className="font-accent mb-8 text-lg italic text-ivory/60 md:text-xl">
-              You are invited to enter
+            <p className="font-accent mb-3 text-lg italic text-ivory md:text-xl">
+              Welcome.
+            </p>
+
+            <p className="mb-8 font-body text-sm leading-relaxed text-ivory/60">
+              You have been invited to witness the official story of
+              <br />
+              <span className="text-ivory">
+                {COUPLE.fullName}
+              </span>
+              .
+              <br />
+              Enter your invitation code to continue.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -109,8 +120,8 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
                     setPassword(e.target.value);
                     setError(false);
                   }}
-                  placeholder="Private Invitation"
-                  aria-label="Private access code"
+                  placeholder="Invitation Code"
+                  aria-label="Invitation code"
                   className={`w-full border-b bg-transparent px-2 py-3 text-center font-body text-sm tracking-[0.3em] text-ivory placeholder:text-ivory/30 outline-none transition-colors duration-500 ${
                     error
                       ? "border-red-400/60"
@@ -128,13 +139,16 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
                 className="group relative w-full overflow-hidden py-4 font-body text-xs tracking-[0.35em] text-ivory uppercase transition-opacity disabled:opacity-40"
               >
                 <span className="relative z-10">
-                  {isSubmitting ? "Opening..." : "Enter"}
+                  {isSubmitting
+                    ? "Opening the Archive..."
+                    : "Enter the Archive"}
                 </span>
+
                 <motion.span
                   className="absolute inset-x-0 bottom-0 h-px bg-champagne"
                   initial={{ scaleX: 0 }}
                   whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.6 }}
                 />
               </motion.button>
 
@@ -144,9 +158,11 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="text-xs tracking-wide text-red-400/80"
+                    className="text-xs leading-relaxed text-red-400/80"
                   >
-                    Incorrect code. Please try again.
+                    This invitation code could not be verified.
+                    <br />
+                    Please check your invitation and try again.
                   </motion.p>
                 )}
               </AnimatePresence>
@@ -159,7 +175,7 @@ export default function PasswordGate({ onAuthenticate }: PasswordGateProps) {
             transition={{ delay: 1.2, duration: 1 }}
             className="mt-20 font-body text-[10px] tracking-[0.3em] text-ivory/30 uppercase"
           >
-            Private &amp; Confidential
+            Private Invitation • Reserved for Family & Friends
           </motion.p>
         </div>
       </motion.div>
