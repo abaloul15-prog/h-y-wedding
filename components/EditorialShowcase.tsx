@@ -41,24 +41,22 @@ export default function EditorialShowcase() {
         />
       </div>
 
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-6 md:grid-cols-12 md:gap-8 md:px-8">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-6 sm:gap-6 md:grid-cols-12 md:gap-8 md:px-8">
         {featured.slice(0, LAYOUT.length).map((photo, index) => {
           const layout = LAYOUT[index % LAYOUT.length];
           return (
-            <motion.div
+            <div
               key={photo.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={viewportOnce}
-              transition={{
-                duration: 1,
-                delay: (index % 3) * 0.12,
-                ease: [0.22, 1, 0.36, 1],
-              }}
               className={`relative overflow-hidden ${layout.aspect} ${layout.span}`}
             >
-              <ParallaxImage image={photo} className="h-full w-full" sizes={layout.sizes} speed={0.1} />
-            </motion.div>
+              <ParallaxImage
+                image={photo}
+                className="h-full w-full"
+                sizes={layout.sizes}
+                speed={0.1}
+                revealDelay={(index % 3) * 0.1}
+              />
+            </div>
           );
         })}
       </div>

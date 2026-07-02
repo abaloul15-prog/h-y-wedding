@@ -37,7 +37,7 @@ export default function VideoCollection() {
         />
       </div>
 
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-6 md:grid-cols-3 md:gap-8 md:px-8">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-6 sm:grid-cols-2 sm:gap-7 md:px-8 lg:grid-cols-3 lg:gap-8">
         {videos.map((video, index) => {
           const poster = resolveImage(video.poster);
 
@@ -48,13 +48,13 @@ export default function VideoCollection() {
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={viewportOnce}
+              whileHover={{ y: -6 }}
               transition={{
-                duration: 0.9,
-                delay: index * 0.1,
-                ease: [0.22, 1, 0.36, 1],
+                opacity: { duration: 0.9, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] },
+                y: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
               }}
               onClick={() => setActiveVideo(video)}
-              className="group relative aspect-[3/4] overflow-hidden rounded-xl text-left ring-1 ring-champagne/10"
+              className="group relative aspect-[3/4] overflow-hidden rounded-xl text-left shadow-[0_20px_50px_-25px_rgba(0,0,0,0)] ring-1 ring-champagne/10 transition-shadow duration-500 hover:shadow-[0_30px_60px_-25px_rgba(0,0,0,0.6)] first:sm:col-span-2 first:lg:col-span-1"
               data-cursor="View"
             >
               <Image

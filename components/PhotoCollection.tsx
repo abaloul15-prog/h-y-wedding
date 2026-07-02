@@ -12,6 +12,7 @@ import type { Photo } from "@/lib/types";
 import { viewportOnce } from "@/styles/motion";
 import GalleryImage from "./GalleryImage";
 import PhotoLightbox from "./PhotoLightbox";
+import RevealItem from "./RevealItem";
 import RevealText from "./RevealText";
 
 const photos = getAllPhotos();
@@ -32,11 +33,15 @@ function FullscreenBlock({ block, onOpen }: BlockProps) {
 
 function DiptychBlock({ block, onOpen }: BlockProps) {
   return (
-    <div className="grid min-h-[70dvh] grid-cols-1 md:grid-cols-2">
-      {block.photos.map((photo) => (
-        <div key={photo.id} className="relative aspect-[3/4] md:aspect-auto md:min-h-[70dvh]">
+    <div className="grid min-h-[60dvh] grid-cols-1 md:min-h-[70dvh] md:grid-cols-2">
+      {block.photos.map((photo, i) => (
+        <RevealItem
+          key={photo.id}
+          delay={i * 0.12}
+          className="relative aspect-[3/4] md:aspect-auto md:min-h-[70dvh]"
+        >
           <GalleryImage photo={photo} onOpen={onOpen} sizes={RESPONSIVE_SIZES.half} />
-        </div>
+        </RevealItem>
       ))}
     </div>
   );
@@ -44,16 +49,17 @@ function DiptychBlock({ block, onOpen }: BlockProps) {
 
 function TriptychBlock({ block, onOpen }: BlockProps) {
   return (
-    <div className="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-2">
+    <div className="grid grid-cols-1 gap-1 px-1 md:grid-cols-3 md:gap-2 md:px-0">
       {block.photos.map((photo, i) => (
-        <div
+        <RevealItem
           key={photo.id}
+          delay={i * 0.1}
           className={`relative aspect-[4/5] md:aspect-[3/4] ${
             i === 1 ? "md:mt-12" : i === 2 ? "md:-mt-8" : ""
           }`}
         >
           <GalleryImage photo={photo} onOpen={onOpen} sizes={RESPONSIVE_SIZES.third} />
-        </div>
+        </RevealItem>
       ))}
     </div>
   );
@@ -62,13 +68,18 @@ function TriptychBlock({ block, onOpen }: BlockProps) {
 function EditorialBlock({ block, onOpen }: BlockProps) {
   const [large, small] = block.photos;
   return (
-    <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-12 md:gap-12 md:px-8 md:py-24">
-      <div className="relative aspect-[4/5] md:col-span-7">
+    <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-8 px-6 py-16 md:grid-cols-12 md:gap-12 md:px-8 md:py-28">
+      <RevealItem x={-30} y={0} className="relative aspect-[4/5] md:col-span-7">
         <GalleryImage photo={large} onOpen={onOpen} sizes={RESPONSIVE_SIZES.half} />
-      </div>
-      <div className="relative aspect-[3/4] md:col-span-4 md:col-start-9 md:mt-20">
+      </RevealItem>
+      <RevealItem
+        x={30}
+        y={0}
+        delay={0.15}
+        className="relative aspect-[3/4] md:col-span-4 md:col-start-9 md:mt-20"
+      >
         <GalleryImage photo={small} onOpen={onOpen} sizes="(max-width: 768px) 80vw, 35vw" />
-      </div>
+      </RevealItem>
     </div>
   );
 }
@@ -82,12 +93,17 @@ const COLLAGE_SPANS = [
 
 function CollageBlock({ block, onOpen }: BlockProps) {
   return (
-    <div className="mx-auto max-w-[1200px] px-4 py-12 md:px-8 md:py-20">
+    <div className="mx-auto max-w-[1200px] px-4 py-14 md:px-8 md:py-24">
       <div className="grid auto-rows-[140px] grid-cols-3 gap-2 md:auto-rows-[200px] md:gap-3">
         {block.photos.map((photo, i) => (
-          <div key={photo.id} className={`relative ${COLLAGE_SPANS[i % COLLAGE_SPANS.length]}`}>
+          <RevealItem
+            key={photo.id}
+            delay={i * 0.08}
+            scale={0.94}
+            className={`relative ${COLLAGE_SPANS[i % COLLAGE_SPANS.length]}`}
+          >
             <GalleryImage photo={photo} onOpen={onOpen} sizes={RESPONSIVE_SIZES.quarter} />
-          </div>
+          </RevealItem>
         ))}
       </div>
     </div>
@@ -96,11 +112,13 @@ function CollageBlock({ block, onOpen }: BlockProps) {
 
 function MosaicBlock({ block, onOpen }: BlockProps) {
   return (
-    <div className="mx-auto max-w-[1600px] px-2 py-8 md:px-4 md:py-16">
+    <div className="mx-auto max-w-[1600px] px-2 py-10 md:px-4 md:py-20">
       <div className="grid grid-cols-2 gap-1 md:grid-cols-4 md:gap-2">
         {block.photos.map((photo, i) => (
-          <div
+          <RevealItem
             key={photo.id}
+            delay={(i % 4) * 0.07}
+            scale={0.95}
             className={`relative ${
               i === 0
                 ? "col-span-2 row-span-2 aspect-square md:aspect-auto md:min-h-[400px]"
@@ -112,7 +130,7 @@ function MosaicBlock({ block, onOpen }: BlockProps) {
               onOpen={onOpen}
               sizes={i === 0 ? "50vw" : RESPONSIVE_SIZES.quarter}
             />
-          </div>
+          </RevealItem>
         ))}
       </div>
     </div>

@@ -8,7 +8,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     eyebrow: "Act I",
     title: "Where Every Great Story Begins",
     paragraphs: [
-      "Every unforgettable story has a beginning. Theirs didn't arrive with grand gestures or perfect timing—it arrived quietly, one conversation at a time, until two separate lives became impossible to imagine apart.",
+      "Every unforgettable story has a beginning. Theirs didn't arrive with grand gestures or perfect timing. It arrived quietly, one conversation at a time, until two separate lives became impossible to imagine apart.",
       "What started as a simple connection grew into unwavering friendship, lasting trust, and a love that would shape everything that followed.",
     ],
     image: getPhotoByIndex(2),
@@ -20,7 +20,7 @@ export const STORY_CHAPTERS: StoryChapter[] = [
     title: "The Promise Before Everyone Else",
     paragraphs: [
       "Long before the flowers were arranged, the music rehearsed, and the invitations delivered, there was a promise only they truly understood.",
-      "It was the decision to choose one another through every season of life—a quiet promise that would one day bring two families together beneath the same celebration.",
+      "It was the decision to choose one another through every season of life, a quiet promise that would one day bring two families together beneath the same celebration.",
     ],
     image: getPhotoByIndex(18),
   },

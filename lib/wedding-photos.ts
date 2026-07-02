@@ -91,7 +91,7 @@ function buildPhoto(filename: string, index: number): WeddingPhoto {
     id,
     filename,
     src: `${IMAGEKIT_BASE}/${filename}`,
-    alt: `Hüseyin & Yousra wedding — ${id}`,
+    alt: `Hüseyin & Yousra wedding photograph ${id}`,
     width: aspect.width,
     height: aspect.height,
   };

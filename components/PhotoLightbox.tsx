@@ -94,7 +94,7 @@ export default function PhotoLightbox({
               e.stopPropagation();
               goPrev();
             }}
-            className="absolute left-2 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-ivory/15 text-ivory transition-colors hover:border-ivory/40 md:flex md:left-6"
+            className="absolute left-1 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-ivory/15 text-ivory transition-colors hover:border-ivory/40 sm:left-3 sm:h-11 sm:w-11 md:left-6 md:h-12 md:w-12"
             aria-label="Previous photo"
             data-cursor="Prev"
           >
@@ -109,7 +109,7 @@ export default function PhotoLightbox({
               e.stopPropagation();
               goNext();
             }}
-            className="absolute right-2 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-ivory/15 text-ivory transition-colors hover:border-ivory/40 md:right-6 md:flex"
+            className="absolute right-1 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-ivory/15 text-ivory transition-colors hover:border-ivory/40 sm:right-3 sm:h-11 sm:w-11 md:right-6 md:h-12 md:w-12"
             aria-label="Next photo"
             data-cursor="Next"
           >
@@ -121,7 +121,7 @@ export default function PhotoLightbox({
           <motion.div
             layoutId={`gallery-photo-${photo.id}`}
             transition={{ duration: 0.5, ease: ease.cinematic }}
-            className="relative mx-auto h-[70dvh] w-[90vw] max-w-5xl md:h-[80dvh]"
+            className="relative mx-auto h-[68dvh] w-[86vw] max-w-5xl sm:h-[75dvh] sm:w-[88vw] md:h-[80dvh]"
             onClick={(event) => event.stopPropagation()}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}

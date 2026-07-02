@@ -1,4 +1,4 @@
-# Hüseyin & Yousra — Private Wedding Experience
+# Hüseyin & Yousra · Private Wedding Experience
 
 A cinematic digital memory experience built with Next.js 15, Framer Motion, Lenis, and GSAP.
 

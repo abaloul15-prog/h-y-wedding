@@ -25,7 +25,7 @@ const containerVariants: Variants = {
 };
 
 /**
- * Masked text reveal — each word rises from behind an overflow-hidden
+ * Masked text reveal. Each word rises from behind an overflow-hidden
  * mask, staggered. The outer tag (never clipped) is what Framer Motion
  * observes for `whileInView`; the clipped inner spans simply inherit
  * that state via variant propagation, so the reveal doesn't get stuck

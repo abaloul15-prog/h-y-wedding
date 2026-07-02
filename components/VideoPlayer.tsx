@@ -86,7 +86,7 @@ export default function VideoPlayer({
               </div>
               {!configured && (
                 <p className="mt-4 font-body text-xs italic text-ivory/50">
-                  This film is being edited — check back soon.
+                  This film is being edited. Check back soon.
                 </p>
               )}
             </div>

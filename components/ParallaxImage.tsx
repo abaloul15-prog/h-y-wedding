@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useTransform, useScroll } from "framer-motion";
+import { motion, useReducedMotion, useTransform, useScroll } from "framer-motion";
 import { useRef } from "react";
 import type { Photo } from "@/lib/types";
 import { resolveImage } from "@/lib/providers/image-provider";
+import { ease } from "@/styles/motion";
 
 interface ParallaxImageProps {
   image: Photo;
@@ -13,6 +14,7 @@ interface ParallaxImageProps {
   priority?: boolean;
   speed?: number;
   sizes?: string;
+  revealDelay?: number;
 }
 
 export default function ParallaxImage({
@@ -22,8 +24,10 @@ export default function ParallaxImage({
   priority = false,
   speed = 0.15,
   sizes = "100vw",
+  revealDelay = 0,
 }: ParallaxImageProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -34,18 +38,26 @@ export default function ParallaxImage({
 
   return (
     <div ref={ref} className={`relative overflow-hidden ${className}`}>
-      <motion.div style={{ y, scale }} className="absolute inset-[-8%]">
-        <Image
-          src={resolved.src}
-          alt={resolved.alt}
-          fill
-          priority={priority}
-          loading={priority ? "eager" : "lazy"}
-          sizes={sizes}
-          placeholder="blur"
-          blurDataURL={resolved.blurDataURL}
-          className={`object-cover ${imgClassName}`}
-        />
+      <motion.div
+        initial={reducedMotion ? undefined : { clipPath: "inset(6% round 2px)" }}
+        whileInView={reducedMotion ? undefined : { clipPath: "inset(0% round 0px)" }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 1.1, delay: revealDelay, ease: ease.cinematic }}
+        className="absolute inset-0"
+      >
+        <motion.div style={{ y, scale }} className="absolute inset-[-8%]">
+          <Image
+            src={resolved.src}
+            alt={resolved.alt}
+            fill
+            priority={priority}
+            loading={priority ? "eager" : "lazy"}
+            sizes={sizes}
+            placeholder="blur"
+            blurDataURL={resolved.blurDataURL}
+            className={`object-cover ${imgClassName}`}
+          />
+        </motion.div>
       </motion.div>
     </div>
   );

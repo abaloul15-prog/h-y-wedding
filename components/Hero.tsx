@@ -6,6 +6,7 @@ import Image from "next/image";
 import { COUPLE } from "@/lib/data/couple";
 import { getPhotoByIndex } from "@/lib/data/photos";
 import { resolveImage } from "@/lib/providers/image-provider";
+import { scrollToTarget } from "@/lib/lenis-instance";
 import RevealText from "./RevealText";
 
 export default function Hero() {
@@ -94,7 +95,7 @@ export default function Hero() {
         style={{ opacity }}
         onClick={(event) => {
           event.preventDefault();
-          document.querySelector("#story")?.scrollIntoView({ behavior: "smooth" });
+          scrollToTarget("#story");
         }}
         className="group absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-3"
         data-cursor="Scroll"

@@ -6,6 +6,7 @@ import { TIMELINE_EVENTS } from "@/lib/data/timeline";
 import { resolveImage, RESPONSIVE_SIZES } from "@/lib/providers/image-provider";
 import { viewportOnce } from "@/styles/motion";
 import RevealText from "./RevealText";
+import Tilt from "./Tilt";
 
 export default function Timeline() {
   return (
@@ -31,11 +32,11 @@ export default function Timeline() {
         />
       </div>
 
-      <div className="mx-auto max-w-4xl px-6">
+      <div className="mx-auto max-w-4xl px-6 md:px-8">
         <div className="relative">
           <div
             aria-hidden
-            className="absolute left-[27px] top-2 bottom-2 w-px bg-gradient-to-b from-transparent via-champagne/30 to-transparent md:left-1/2 md:-translate-x-1/2"
+            className="absolute left-[19px] top-2 bottom-2 w-px bg-gradient-to-b from-transparent via-champagne/30 to-transparent md:left-1/2 md:-translate-x-1/2"
           />
 
           <ol className="flex flex-col gap-16 md:gap-24">
@@ -50,11 +51,11 @@ export default function Timeline() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={viewportOnce}
                   transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                  className="relative grid grid-cols-[56px_1fr] gap-6 md:grid-cols-2 md:gap-16"
+                  className="relative grid grid-cols-[40px_1fr] gap-4 sm:grid-cols-[56px_1fr] sm:gap-6 md:grid-cols-2 md:gap-16"
                 >
                   <span
                     aria-hidden
-                    className="absolute left-[23px] top-1.5 z-10 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-gold ring-4 ring-black md:left-1/2"
+                    className="absolute left-[19px] top-1.5 z-10 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-gold ring-4 ring-black sm:left-[27px] md:left-1/2"
                   />
 
                   <div
@@ -83,7 +84,7 @@ export default function Timeline() {
                           : "md:col-start-2 md:pl-16"
                       }`}
                     >
-                      <div className="relative aspect-[4/3] overflow-hidden">
+                      <Tilt max={3} className="relative aspect-[4/3] overflow-hidden">
                         <Image
                           src={image.src}
                           alt={image.alt}
@@ -94,7 +95,7 @@ export default function Timeline() {
                           blurDataURL={image.blurDataURL}
                           className="object-cover"
                         />
-                      </div>
+                      </Tilt>
                     </div>
                   )}
                 </motion.li>

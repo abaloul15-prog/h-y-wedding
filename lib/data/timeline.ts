@@ -7,7 +7,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     date: "09:00",
     title: "The Morning Everything Changed",
     description:
-      "Before the guests arrived and before the celebrations began, Hüseyin and Yousra shared the final quiet hours of two separate lives—standing on the edge of forever.",
+      "Before the guests arrived and before the celebrations began, Hüseyin and Yousra shared the final quiet hours of two separate lives, standing on the edge of forever.",
     image: getPhotoByIndex(5),
   },
   {

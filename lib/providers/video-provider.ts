@@ -15,7 +15,7 @@ export interface PlaybackSource {
 /**
  * Resolves a Video record into an actual playback source. This is the
  * single seam to touch when migrating from YouTube Unlisted to Mux,
- * Cloudflare Stream, Vimeo, or a self-hosted file — every player
+ * Cloudflare Stream, Vimeo, or a self-hosted file, every player
  * component consumes `resolvePlaybackSource`, never the raw provider id.
  */
 export function resolvePlaybackSource(video: Video): PlaybackSource | null {

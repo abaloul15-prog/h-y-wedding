@@ -13,7 +13,7 @@ interface GalleryImageProps {
   priority?: boolean;
 }
 
-/** Shared gallery thumbnail — its layoutId is mirrored by PhotoLightbox for a shared-element zoom. */
+/** Shared gallery thumbnail. Its layoutId is mirrored by PhotoLightbox for a shared-element zoom. */
 export default function GalleryImage({
   photo,
   onOpen,

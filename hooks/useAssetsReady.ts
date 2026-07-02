@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-/** True once the initial mount + a short delay has elapsed — used to gate the loading screen. */
+/** True once the initial mount + a short delay has elapsed, used to gate the loading screen. */
 export function useAssetsReady(minimumMs = 1800) {
   const [ready, setReady] = useState(false);
 
