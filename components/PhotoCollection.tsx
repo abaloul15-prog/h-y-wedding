@@ -86,80 +86,82 @@ function EditorialBlock({ block, onOpen }: BlockProps) {
   );
 }
 
-const EDITORIAL_COLLAGE_FRAMES = [
-  {
-    frame:
-      "left-0 top-0 z-20 h-[360px] w-[72%] sm:h-[430px] md:h-[560px] md:w-[46%]",
-    sizes: "(max-width: 768px) 72vw, 46vw",
-  },
-  {
-    frame:
-      "right-0 top-[120px] z-10 h-[260px] w-[54%] sm:top-[150px] sm:h-[320px] md:top-[70px] md:h-[380px] md:w-[36%]",
-    sizes: "(max-width: 768px) 54vw, 36vw",
-  },
-  {
-    frame:
-      "bottom-[90px] left-[12%] z-30 h-[210px] w-[46%] sm:h-[260px] md:bottom-0 md:left-[32%] md:h-[300px] md:w-[28%]",
-    sizes: "(max-width: 768px) 46vw, 28vw",
-  },
-  {
-    frame:
-      "bottom-0 right-[5%] z-20 h-[250px] w-[58%] sm:h-[320px] md:right-[8%] md:h-[420px] md:w-[34%]",
-    sizes: "(max-width: 768px) 58vw, 34vw",
-  },
+/**
+ * Editorial four-photo collage: one dominant hero image, a stacked pair
+ * beside it, and a wide banner beneath. Every span below was verified
+ * by hand-simulating CSS Grid's sparse auto-placement algorithm for
+ * both the 2-column (mobile) and 6-column (md+) tracks, so the four
+ * images always tile the container exactly, with zero empty cells and
+ * zero overlap, at every breakpoint.
+ */
+const COLLAGE_SPANS = [
+  "col-span-2 row-span-2 md:col-span-4 md:row-span-4",
+  "row-span-1 md:col-span-2 md:row-span-2",
+  "row-span-1 md:col-span-2 md:row-span-2",
+  "col-span-2 row-span-1 md:col-span-6 md:row-span-2",
+];
+
+const COLLAGE_SIZES = [
+  RESPONSIVE_SIZES.half,
+  RESPONSIVE_SIZES.quarter,
+  RESPONSIVE_SIZES.quarter,
+  RESPONSIVE_SIZES.full,
 ];
 
 function CollageBlock({ block, onOpen }: BlockProps) {
   return (
     <div className="mx-auto max-w-[1280px] px-4 py-16 sm:px-6 md:px-8 md:py-28">
-      <div className="relative min-h-[760px] sm:min-h-[880px] md:min-h-[720px]">
+      <div className="grid grid-cols-2 auto-rows-[175px] gap-2 sm:auto-rows-[210px] sm:gap-3 md:grid-cols-6 md:auto-rows-[120px] lg:auto-rows-[132px]">
         {block.photos.map((photo, i) => (
-          <div
-            key={photo.id}
-            className={`absolute ${EDITORIAL_COLLAGE_FRAMES[i % EDITORIAL_COLLAGE_FRAMES.length].frame}`}
-          >
           <RevealItem
-            delay={i * 0.08}
-            scale={0.94}
-            className="relative h-full w-full"
+            key={photo.id}
+            delay={i * 0.09}
+            scale={0.95}
+            className={`relative overflow-hidden ${COLLAGE_SPANS[i % COLLAGE_SPANS.length]}`}
           >
             <GalleryImage
               photo={photo}
               onOpen={onOpen}
-              sizes={EDITORIAL_COLLAGE_FRAMES[i % EDITORIAL_COLLAGE_FRAMES.length].sizes}
+              sizes={COLLAGE_SIZES[i % COLLAGE_SIZES.length]}
             />
           </RevealItem>
-          </div>
         ))}
       </div>
     </div>
   );
 }
 
-function MosaicBlock({ block, onOpen }: BlockProps) {
-  const mosaicFrames = [
-    "col-span-2 row-span-2 aspect-[4/5] md:aspect-auto md:min-h-[520px]",
-    "aspect-[4/5]",
-    "aspect-square",
-    "col-span-1 row-span-2 aspect-[3/5] md:aspect-auto",
-    "aspect-[5/4]",
-    "aspect-square",
-  ];
+/**
+ * Editorial six-photo mosaic: a dominant square, a tall companion, a
+ * small accent, a wide mid-band, and a full-width closing banner. Like
+ * the collage above, every span was hand-verified against the sparse
+ * grid auto-placement algorithm for both the 2-column and 4-column
+ * tracks, guaranteeing a fully tiled, gap-free composition.
+ */
+const MOSAIC_SPANS = [
+  "col-span-2 row-span-2",
+  "row-span-1 md:row-span-3",
+  "row-span-1 md:row-span-2",
+  "row-span-2 md:col-span-2 md:row-span-1",
+  "row-span-1",
+  "row-span-1 md:col-span-4",
+];
 
+function MosaicBlock({ block, onOpen }: BlockProps) {
   return (
     <div className="mx-auto max-w-[1600px] px-2 py-10 md:px-4 md:py-20">
-      <div className="grid auto-rows-[160px] grid-flow-dense grid-cols-2 gap-1 sm:auto-rows-[190px] md:grid-cols-4 md:gap-2 lg:auto-rows-[220px]">
+      <div className="grid grid-cols-2 auto-rows-[150px] gap-1 sm:auto-rows-[180px] md:grid-cols-4 md:gap-2 lg:auto-rows-[170px]">
         {block.photos.map((photo, i) => (
           <RevealItem
             key={photo.id}
-            delay={(i % 4) * 0.07}
+            delay={(i % 6) * 0.06}
             scale={0.95}
-            className={`relative ${mosaicFrames[i % mosaicFrames.length]}`}
+            className={`relative overflow-hidden ${MOSAIC_SPANS[i % MOSAIC_SPANS.length]}`}
           >
             <GalleryImage
               photo={photo}
               onOpen={onOpen}
-              sizes={i === 0 ? "50vw" : RESPONSIVE_SIZES.quarter}
+              sizes={i === 0 || i === 5 ? RESPONSIVE_SIZES.half : RESPONSIVE_SIZES.quarter}
             />
           </RevealItem>
         ))}

@@ -59,7 +59,12 @@ export type PhotoCategory =
   | "candid"
   | "family";
 
-export type VideoProviderType = "youtube" | "vimeo" | "mux" | "mp4";
+export type VideoProviderType =
+  | "google-drive"
+  | "youtube"
+  | "vimeo"
+  | "mux"
+  | "mp4";
 
 /**
  * Canonical video record. The `provider` + `providerId`/`src` pair is

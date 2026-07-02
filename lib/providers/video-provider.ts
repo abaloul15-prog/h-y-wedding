@@ -1,6 +1,6 @@
 import type { Video } from "@/lib/types";
 
-export const PLACEHOLDER_ID = "REPLACE_WITH_YOUTUBE_ID";
+export const PLACEHOLDER_ID = "REPLACE_WITH_VIDEO_ID";
 
 export function isPlaybackConfigured(video: Video): boolean {
   return Boolean(video.providerId) && video.providerId !== PLACEHOLDER_ID;
@@ -14,14 +14,29 @@ export interface PlaybackSource {
 
 /**
  * Resolves a Video record into an actual playback source. This is the
- * single seam to touch when migrating from YouTube Unlisted to Mux,
- * Cloudflare Stream, Vimeo, or a self-hosted file, every player
- * component consumes `resolvePlaybackSource`, never the raw provider id.
+ * single seam to touch when migrating providers (Google Drive, Mux,
+ * Cloudflare Stream, Vimeo, a self-hosted file, and so on), every
+ * player component consumes `resolvePlaybackSource`, never the raw
+ * provider id.
+ *
+ * Google Drive notes: Drive's `/preview` embed has no documented,
+ * reliable autoplay or forced-quality parameter (the historical
+ * `?autoplay=1`/`?start=1` tricks are unofficial and broken in modern
+ * browsers). We deliberately do not append them here. Drive serves
+ * its own adaptive quality and shows its native play control inside
+ * the iframe once mounted, which is the highest-quality, non-hacky
+ * behavior it publicly supports.
  */
 export function resolvePlaybackSource(video: Video): PlaybackSource | null {
   if (!isPlaybackConfigured(video)) return null;
 
   switch (video.provider) {
+    case "google-drive":
+      return {
+        kind: "iframe",
+        src: `https://drive.google.com/file/d/${video.providerId}/preview`,
+        allow: "fullscreen",
+      };
     case "youtube":
       return {
         kind: "iframe",

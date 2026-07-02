@@ -30,8 +30,12 @@ Photo metadata lives in `lib/wedding-photos.ts` and is consumed through
 
 ### Videos
 
-Edit `lib/data/videos.ts` with the final unlisted YouTube IDs. Provider-specific
-playback is isolated in `lib/providers/video-provider.ts`.
+Edit `lib/data/videos.ts` with each video's Google Drive file ID (the
+`FILE_ID` in `https://drive.google.com/file/d/FILE_ID/preview`) and set
+`provider: "google-drive"`. Provider-specific playback is isolated in
+`lib/providers/video-provider.ts`, so switching to Mux, Cloudflare
+Stream, Vimeo, or a self-hosted file later only means adding a case
+there and updating the `provider` field per video.
 
 ## Architecture
 

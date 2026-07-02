@@ -25,8 +25,8 @@ export const VIDEOS: Video[] = [
     category: "Feature Film",
     featured: true,
     poster: poster(0),
-    provider: "youtube",
-    providerId: "REPLACE_WITH_YOUTUBE_ID",
+    provider: "google-drive",
+    providerId: "1LMBL0iLVLsirhFFXT0j3bvQW1prKwOwS",
   },
   {
     id: "the-ceremony",
@@ -39,8 +39,8 @@ export const VIDEOS: Video[] = [
     location: "Morocco",
     category: "Ceremony",
     poster: poster(23),
-    provider: "youtube",
-    providerId: "REPLACE_WITH_YOUTUBE_ID",
+    provider: "google-drive",
+    providerId: "1U8ln6U4WqKuNXDTYxoRe_5nPuD8G25Fw",
   },
   {
     id: "the-reception",
@@ -53,8 +53,8 @@ export const VIDEOS: Video[] = [
     location: "Morocco",
     category: "Reception",
     poster: poster(53),
-    provider: "youtube",
-    providerId: "REPLACE_WITH_YOUTUBE_ID",
+    provider: "google-drive",
+    providerId: "1lnuzD2qsm8to5cq-VPHYD76nqKyj2Jz4",
   },
 ];
 

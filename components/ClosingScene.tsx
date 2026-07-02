@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { COUPLE } from "@/lib/data/couple";
 import { getPhotoByIndex } from "@/lib/data/photos";
 import { resolveImage } from "@/lib/providers/image-provider";
@@ -31,6 +31,13 @@ function generateParticles(count: number): Particle[] {
 export default function ClosingScene() {
   const [particles, setParticles] = useState<Particle[]>([]);
   const backdrop = resolveImage(getPhotoByIndex(59));
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end end"],
+  });
+  const backdropScale = useTransform(scrollYProgress, [0, 1], [1.12, 1]);
+  const backdropY = useTransform(scrollYProgress, [0, 1], [-40, 0]);
 
   useEffect(() => {
     setParticles(generateParticles(30));
@@ -38,10 +45,14 @@ export default function ClosingScene() {
 
   return (
     <section
+      ref={sectionRef}
       className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden bg-black text-ivory"
       aria-label="Closing"
     >
-      <div className="absolute inset-0">
+      <motion.div
+        style={{ scale: backdropScale, y: backdropY }}
+        className="absolute inset-0"
+      >
         <Image
           src={backdrop.src}
           alt={backdrop.alt}
@@ -52,6 +63,8 @@ export default function ClosingScene() {
           blurDataURL={backdrop.blurDataURL}
           className="object-cover opacity-30"
         />
+      </motion.div>
+      <div className="absolute inset-0">
         <div className="absolute inset-0 bg-black/70" />
         <div className="radial-vignette absolute inset-0" />
       </div>

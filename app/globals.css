@@ -149,6 +149,38 @@
   .mask-reveal {
     clip-path: inset(0 0 0 0);
   }
+
+  /**
+   * Viewport reveal driven purely by CSS transitions + a single native
+   * IntersectionObserver (see components/RevealItem.tsx). Compositor
+   * thread animates transform/opacity here, not Framer Motion's JS
+   * animation loop, so revealing or replaying dozens of items at once
+   * (e.g. the Archive) never blocks scrolling.
+   */
+  .reveal-item {
+    opacity: 0;
+    transform: translate3d(var(--reveal-x, 0px), var(--reveal-y, 28px), 0)
+      scale(var(--reveal-scale, 0.97));
+    transition:
+      opacity var(--reveal-duration, 0.9s) cubic-bezier(0.22, 1, 0.36, 1)
+        var(--reveal-delay, 0s),
+      transform var(--reveal-duration, 0.9s) cubic-bezier(0.22, 1, 0.36, 1)
+        var(--reveal-delay, 0s);
+    will-change: opacity, transform;
+  }
+
+  .reveal-item.is-in-view {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
