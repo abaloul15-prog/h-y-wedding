@@ -9,22 +9,18 @@ export function useLockBodyScroll(locked: boolean) {
     if (!locked) return;
 
     const lenis = getLenisInstance();
-    const scrollY = window.scrollY;
-    const { style } = document.body;
-    const previousPosition = style.position;
-    const previousTop = style.top;
-    const previousWidth = style.width;
+    const bodyStyle = document.body.style;
+    const htmlStyle = document.documentElement.style;
+    const previousBodyOverflow = bodyStyle.overflow;
+    const previousHtmlOverflow = htmlStyle.overflow;
 
     lenis?.stop();
-    style.position = "fixed";
-    style.top = `-${scrollY}px`;
-    style.width = "100%";
+    bodyStyle.overflow = "hidden";
+    htmlStyle.overflow = "hidden";
 
     return () => {
-      style.position = previousPosition;
-      style.top = previousTop;
-      style.width = previousWidth;
-      window.scrollTo(0, scrollY);
+      bodyStyle.overflow = previousBodyOverflow;
+      htmlStyle.overflow = previousHtmlOverflow;
       lenis?.start();
     };
   }, [locked]);

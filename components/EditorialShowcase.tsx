@@ -1,13 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { getFeaturedPhotos } from "@/lib/data/photos";
 import { RESPONSIVE_SIZES } from "@/lib/providers/image-provider";
+import type { Photo } from "@/lib/types";
 import { viewportOnce } from "@/styles/motion";
-import ParallaxImage from "./ParallaxImage";
+import GalleryImage from "./GalleryImage";
+import PhotoLightbox from "./PhotoLightbox";
+import RevealItem from "./RevealItem";
 import RevealText from "./RevealText";
 
 const featured = getFeaturedPhotos();
+const closerLookPhotos = featured.slice(0, 6);
 
 const LAYOUT = [
   { span: "md:col-span-7 md:row-span-2", aspect: "aspect-[4/5]", sizes: RESPONSIVE_SIZES.half },
@@ -19,6 +24,13 @@ const LAYOUT = [
 ];
 
 export default function EditorialShowcase() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const handleOpen = (photo: Photo) => {
+    const nextIndex = closerLookPhotos.findIndex((item) => item.id === photo.id);
+    setActiveIndex(nextIndex === -1 ? null : nextIndex);
+  };
+
   return (
     <section
       className="relative bg-ivory py-28 text-charcoal md:py-40"
@@ -42,24 +54,32 @@ export default function EditorialShowcase() {
       </div>
 
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-6 sm:gap-6 md:grid-cols-12 md:gap-8 md:px-8">
-        {featured.slice(0, LAYOUT.length).map((photo, index) => {
+        {closerLookPhotos.map((photo, index) => {
           const layout = LAYOUT[index % LAYOUT.length];
           return (
-            <div
+            <RevealItem
               key={photo.id}
+              delay={(index % 3) * 0.08}
               className={`relative overflow-hidden ${layout.aspect} ${layout.span}`}
             >
-              <ParallaxImage
-                image={photo}
-                className="h-full w-full"
+              <GalleryImage
+                photo={photo}
+                onOpen={handleOpen}
                 sizes={layout.sizes}
-                speed={0.1}
-                revealDelay={(index % 3) * 0.1}
+                layoutGroup="closer-look"
               />
-            </div>
+            </RevealItem>
           );
         })}
       </div>
+
+      <PhotoLightbox
+        photos={closerLookPhotos}
+        index={activeIndex}
+        onClose={() => setActiveIndex(null)}
+        onNavigate={setActiveIndex}
+        layoutGroup="closer-look"
+      />
     </section>
   );
 }

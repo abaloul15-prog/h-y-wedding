@@ -5,6 +5,7 @@ import Image from "next/image";
 import { STORY_CHAPTERS } from "@/lib/data/story";
 import { resolveImage, RESPONSIVE_SIZES } from "@/lib/providers/image-provider";
 import { viewportOnce } from "@/styles/motion";
+import RevealItem from "./RevealItem";
 import RevealText from "./RevealText";
 import Tilt from "./Tilt";
 
@@ -42,13 +43,7 @@ export default function StorySection() {
               key={chapter.id}
               className="grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-16"
             >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.96 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={viewportOnce}
-                transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-                className={reversed ? "md:order-2" : "md:order-1"}
-              >
+              <RevealItem className={reversed ? "md:order-2" : "md:order-1"}>
                 <Tilt max={3} className="relative aspect-[4/5] overflow-hidden">
                   <Image
                     src={image.src}
@@ -61,7 +56,7 @@ export default function StorySection() {
                     className="object-cover"
                   />
                 </Tilt>
-              </motion.div>
+              </RevealItem>
 
               <div className={reversed ? "md:order-1" : "md:order-2"}>
                 <span className="mb-4 flex items-baseline gap-3 font-body text-[11px] tracking-[0.4em] text-gold uppercase">

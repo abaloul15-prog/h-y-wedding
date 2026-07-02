@@ -41,7 +41,7 @@ export default function ParallaxImage({
       <motion.div
         initial={reducedMotion ? undefined : { clipPath: "inset(6% round 2px)" }}
         whileInView={reducedMotion ? undefined : { clipPath: "inset(0% round 0px)" }}
-        viewport={{ once: true, margin: "-10%" }}
+        viewport={{ once: false, margin: "-12% 0px -12% 0px" }}
         transition={{ duration: 1.1, delay: revealDelay, ease: ease.cinematic }}
         className="absolute inset-0"
       >

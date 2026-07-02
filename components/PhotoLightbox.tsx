@@ -13,6 +13,7 @@ interface PhotoLightboxProps {
   index: number | null;
   onClose: () => void;
   onNavigate: (index: number) => void;
+  layoutGroup?: string;
 }
 
 export default function PhotoLightbox({
@@ -20,6 +21,7 @@ export default function PhotoLightbox({
   index,
   onClose,
   onNavigate,
+  layoutGroup = "gallery",
 }: PhotoLightboxProps) {
   const isOpen = index !== null;
   const photo = isOpen ? photos[index] : null;
@@ -47,6 +49,21 @@ export default function PhotoLightbox({
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [isOpen, onClose, goNext, goPrev]);
+
+  useEffect(() => {
+    if (index === null) return;
+
+    const candidates = [
+      photos[(index + 1) % photos.length],
+      photos[(index - 1 + photos.length) % photos.length],
+    ];
+
+    candidates.forEach((candidate) => {
+      const image = new window.Image();
+      image.decoding = "async";
+      image.src = candidate.src;
+    });
+  }, [index, photos]);
 
   const handleDragEnd = (
     _event: MouseEvent | TouchEvent | PointerEvent,
@@ -119,7 +136,7 @@ export default function PhotoLightbox({
           </button>
 
           <motion.div
-            layoutId={`gallery-photo-${photo.id}`}
+            layoutId={`${layoutGroup}-photo-${photo.id}`}
             transition={{ duration: 0.5, ease: ease.cinematic }}
             className="relative mx-auto h-[68dvh] w-[86vw] max-w-5xl sm:h-[75dvh] sm:w-[88vw] md:h-[80dvh]"
             onClick={(event) => event.stopPropagation()}

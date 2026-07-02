@@ -1,6 +1,6 @@
 # Hüseyin & Yousra · Private Wedding Experience
 
-A cinematic digital memory experience built with Next.js 15, Framer Motion, Lenis, and GSAP.
+A cinematic digital memory experience built with Next.js 15, Framer Motion, Lenis, and ImageKit.
 
 ## Quick start
 
@@ -23,42 +23,31 @@ Or connect the repository in the [Vercel dashboard](https://vercel.com). The pro
 
 ## Replace media
 
-### Photos (200 gallery + 40 collage)
+### Photos
 
-Drop your images into:
-
-- `public/images/gallery/001.jpg` … `200.jpg`
-- `public/images/collage/01.jpg` … `40.jpg`
-
-Then update file extensions in `lib/images.ts` from `.svg` to `.jpg`.
-
-Regenerate SVG placeholders anytime:
-
-```bash
-npm run generate:placeholders
-```
+Photo metadata lives in `lib/wedding-photos.ts` and is consumed through
+`lib/data/photos.ts`. Add new ImageKit filenames there to update the archive.
 
 ### Videos
 
-Add `VIDEO_01.mp4` and `VIDEO_02.mp4` to `public/videos/`, or edit `lib/videos.ts` for YouTube/Bunny CDN. See `public/videos/README.md`.
+Edit `lib/data/videos.ts` with the final unlisted YouTube IDs. Provider-specific
+playback is isolated in `lib/providers/video-provider.ts`.
 
 ## Architecture
 
 ```
-app/           → Layout, page, globals, robots (noindex)
-components/    → PasswordGate, HeroFilm, FullscreenVideo, MemoryCollage,
-                 EditorialGallery, QuoteSection, FooterExperience
-hooks/         → useAuth, useScrollProgress, useParallax, useInView
-lib/           → constants, colors, images, videos
-public/images/ → 240 placeholder SVGs (replace with real photos)
-public/videos/ → VIDEO_01.mp4, VIDEO_02.mp4
+app/           → Layout, page, auth route, icons, manifest, robots
+components/    → PasswordGate, Hero, Story, Film, Gallery, Timeline, Lightboxes
+hooks/         → useAuth, scroll locking, media queries
+lib/data/      → couple, photos, story, timeline, videos
+lib/providers/ → image and video provider adapters
 ```
 
 ## Privacy
 
 - `robots.ts` disallows all crawlers
 - `metadata.robots` set to noindex/nofollow
-- Password gate via session storage
+- Signed httpOnly session cookie
 
 ## Tech stack
 
@@ -67,4 +56,3 @@ public/videos/ → VIDEO_01.mp4, VIDEO_02.mp4
 - Tailwind CSS v4
 - Framer Motion
 - Lenis smooth scroll
-- GSAP ScrollTrigger

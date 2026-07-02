@@ -11,6 +11,7 @@ interface GalleryImageProps {
   sizes: string;
   className?: string;
   priority?: boolean;
+  layoutGroup?: string;
 }
 
 /** Shared gallery thumbnail. Its layoutId is mirrored by PhotoLightbox for a shared-element zoom. */
@@ -20,13 +21,14 @@ export default function GalleryImage({
   sizes,
   className = "",
   priority = false,
+  layoutGroup = "gallery",
 }: GalleryImageProps) {
   const resolved = resolveImage(photo);
 
   return (
     <motion.button
       type="button"
-      layoutId={`gallery-photo-${photo.id}`}
+      layoutId={`${layoutGroup}-photo-${photo.id}`}
       onClick={() => onOpen(photo)}
       className={`group relative block h-full w-full overflow-hidden ${className}`}
       aria-label={`Open photograph: ${resolved.alt}`}

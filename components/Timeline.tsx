@@ -5,6 +5,7 @@ import Image from "next/image";
 import { TIMELINE_EVENTS } from "@/lib/data/timeline";
 import { resolveImage, RESPONSIVE_SIZES } from "@/lib/providers/image-provider";
 import { viewportOnce } from "@/styles/motion";
+import RevealItem from "./RevealItem";
 import RevealText from "./RevealText";
 import Tilt from "./Tilt";
 
@@ -84,6 +85,7 @@ export default function Timeline() {
                           : "md:col-start-2 md:pl-16"
                       }`}
                     >
+                      <RevealItem>
                       <Tilt max={3} className="relative aspect-[4/3] overflow-hidden">
                         <Image
                           src={image.src}
@@ -96,6 +98,7 @@ export default function Timeline() {
                           className="object-cover"
                         />
                       </Tilt>
+                      </RevealItem>
                     </div>
                   )}
                 </motion.li>

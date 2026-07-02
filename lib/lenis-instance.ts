@@ -21,15 +21,23 @@ export function getLenisInstance(): Lenis | null {
  * scroll-position tracking stays authoritative. Falling back to the
  * native API keeps this safe to call before Lenis has mounted.
  */
-export function scrollToTarget(target: string | HTMLElement, offset = -88) {
+export function scrollToTarget(target: string | HTMLElement, offset = -84) {
   const lenis = getLenisInstance();
+  const element =
+    typeof target === "string" ? document.querySelector<HTMLElement>(target) : target;
+
+  if (!element) return;
 
   if (lenis) {
-    lenis.scrollTo(target, { offset, duration: 1.2 });
+    lenis.start();
+    lenis.scrollTo(element, {
+      offset,
+      duration: 1.05,
+      easing: (t: number) => Math.min(1, 1.001 - 2 ** (-10 * t)),
+    });
     return;
   }
 
-  const element =
-    typeof target === "string" ? document.querySelector(target) : target;
-  element?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const top = element.getBoundingClientRect().top + window.scrollY + offset;
+  window.scrollTo({ top, behavior: "smooth" });
 }

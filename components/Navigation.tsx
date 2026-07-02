@@ -6,10 +6,10 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { COUPLE } from "@/lib/data/couple";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
-import { scrollToTarget } from "@/lib/lenis-instance";
+import { getLenisInstance, scrollToTarget } from "@/lib/lenis-instance";
 import { ease } from "@/styles/motion";
 
 const LINKS = [
@@ -24,13 +24,25 @@ export default function Navigation() {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const hiddenRef = useRef(false);
+  const scrolledRef = useRef(false);
 
   useLockBodyScroll(menuOpen);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
-    setHidden(!menuOpen && latest > previous && latest > 160);
-    setScrolled(latest > 40);
+    const nextHidden = !menuOpen && latest > previous && latest > 160;
+    const nextScrolled = latest > 40;
+
+    if (hiddenRef.current !== nextHidden) {
+      hiddenRef.current = nextHidden;
+      setHidden(nextHidden);
+    }
+
+    if (scrolledRef.current !== nextScrolled) {
+      scrolledRef.current = nextScrolled;
+      setScrolled(nextScrolled);
+    }
   });
 
   useEffect(() => {
@@ -49,11 +61,9 @@ export default function Navigation() {
     const wasMenuOpen = menuOpen;
     setMenuOpen(false);
 
-    // Give the menu-close effect (which resumes Lenis) time to settle
-    // before issuing a new scroll, otherwise Lenis can snap back to
-    // its last tracked position.
     if (wasMenuOpen) {
-      window.setTimeout(() => scrollToTarget(href), 350);
+      getLenisInstance()?.start();
+      requestAnimationFrame(() => scrollToTarget(href));
     } else {
       scrollToTarget(href);
     }

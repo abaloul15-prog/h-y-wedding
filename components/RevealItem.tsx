@@ -28,7 +28,7 @@ export default function RevealItem({
   x = 0,
   scale = 0.97,
   duration = 0.9,
-  once = true,
+  once = false,
 }: RevealItemProps) {
   const reducedMotion = useReducedMotion();
 
